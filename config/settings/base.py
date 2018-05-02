@@ -37,7 +37,8 @@ USE_TZ = True
 # DATABASES
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
-DATABASE_URL = 'postgres://{0}:{1}@postgres:5432/{2}'.format(env('POSTGRES_USER'), env('POSTGRES_PASSWORD'), env('POSTGRES_DB'))
+DATABASE_URL = 'postgres://{0}:{1}@postgres:5432/{2}'.format(
+    env('POSTGRES_USER'), env('POSTGRES_PASSWORD'), env('POSTGRES_DB'))
 DATABASES = {
     'default': env.db('DATABASE_URL', DATABASE_URL),
 }

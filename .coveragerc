@@ -1,0 +1,5 @@
+[run]
+include = ativnos/*
+omit = *migrations*, *tests*
+plugins =
+    django_coverage_plugin

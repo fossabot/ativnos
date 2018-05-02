@@ -1,0 +1,61 @@
+{% extends "base.html" %} {% load static %} {% block title %}User: {{ object.username }}{% endblock %} {% block content %}
+<div class="container">
+
+    <div class="row">
+        <div class="col">
+
+            <h2>Evan Roman</h2>
+            <p>I do whatever. Here is my github</p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Causes</h3>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Intactivism</h5>
+                    <p class="card-text">Optional Text here</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h3>Skills</h3>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Programming</h5>
+                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Programming</h5>
+                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">Programming</h5>
+                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% if object == request.user %}
+    <!-- Action buttons -->
+    <div class="row">
+
+        <div class="col-sm-12">
+            <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
+            <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
+            <!-- Your Stuff: Custom user template urls -->
+        </div>
+
+    </div>
+    <!-- End Action buttons -->
+    {% endif %}
+
+
+</div>
+{% endblock content %}

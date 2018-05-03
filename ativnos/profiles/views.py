@@ -21,6 +21,27 @@ class UserProfileView(View):
         return render(request, 'profiles/profile_detail.html', {'user': user})
 
 
+class UpdateProfileView(View):
+    template_name = 'profiles/update.html'
+    model = get_user_model()
+    
+    def get_form_class(self):
+        return modelform_factory(self.model, fields=['name', 'description'])
+
+    def get(self, request):
+        instance = request.user
+        form = self.get_form_class()(instance=instance)
+        return render(request, self.template_name, {'form': form})
+
+    def post(self, request):
+        instance = request.user
+        form = self.get_form_class()(request.POST, instance=instance)
+        if form.is_valid():
+            form.save()
+            return redirect(instance.get_absolute_url())
+        return render(request, self.template_name, {'form': form}, status=400)
+
+
 class UpsertTagViewAbstractBase(LoginRequiredMixin, View):
     template_name = 'profiles/upsert_tag.html'
 

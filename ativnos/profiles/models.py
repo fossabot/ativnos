@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from ativnos.tags.models import Cause, Skill
 
@@ -7,8 +8,13 @@ from ativnos.tags.models import Cause, Skill
 class UserTagAbstractBase(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    
-    description = models.TextField(max_length=300, blank=True)
+
+    description = models.TextField(
+        _("Description"), max_length=300, blank=True,
+        help_text=_(
+            "Describe your involvement. How have you been involved? "
+            "What have you done? What would you like to do? You may Include links."
+        ))
 
     class Meta:
         abstract = True

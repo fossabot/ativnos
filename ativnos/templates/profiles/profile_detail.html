@@ -9,21 +9,24 @@
     <div class="row">
         <div class="col">
 
-            <h2>{{ user.first_name|default:"Anonymous" }}</h2>
+            <h2>{{ user.name|default:"Anonymous" }}</h2>
             <p>{{ user.description }}</p>
             {% if request.user == user %}
-            <a href="#" class="btn btn-secondary btn-sm">edit</a>
+            <a href="{% url 'profiles:update' %}" class="btn btn-secondary btn-sm">edit</a>
             {% endif %}
         </div>
     </div>
     <div class="row">
         <div class="col">
             <h3>Causes{% if request.user == user %} <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
-            {% for instance in user.causes.all %}
+            {% for item in user.causes.all %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">{{ instance.tag.name }}</h5>
-                    <p class="card-text">{{ instance.description }}</p>
+                    <h5 class="card-title">{{ item.tag.name }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    {% if request.user == user %}
+                    <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
+                    {% endif %}
                 </div>
             </div>
             {% empty %}
@@ -34,11 +37,14 @@
     <div class="row">
             <div class="col">
                 <h3>skills{% if request.user == user %} <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
-                {% for instance in user.skills.all %}
+                {% for item in user.skills.all %}
                 <div class="card">
                     <div class="card-body">
-                        <h5 class="card-title">{{ instance.tag.name }}</h5>
-                        <p class="card-text">{{ instance.description }}</p>
+                        <h5 class="card-title">{{ item.tag.name }}</h5>
+                        <p class="card-text">{{ item.description }}</p>
+                        {% if request.user == user %}
+                        <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
+                        {% endif %}
                     </div>
                 </div>
                 {% empty %}

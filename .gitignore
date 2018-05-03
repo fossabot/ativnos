@@ -265,8 +265,8 @@ Session.vim
 .netrwhist
 
 # Auto-generated tag files
-tags
-!/ativnos/tags
+# tags
+
 
 ### VirtualEnv template
 # Virtualenv

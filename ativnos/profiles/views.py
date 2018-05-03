@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.views import View
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelform_factory
@@ -8,9 +9,12 @@ from ativnos.tags.models import Cause, Skill
 from .models import UserCause, UserSkill
 
 
-class ProfileDetailView(View):
-    def get(self, request):
-        return render(request, 'profiles/profile_detail.html')
+class UserProfileView(View):
+    model = get_user_model()
+
+    def get(self, request, pk):
+        user = get_object_or_404(self.model, pk=pk)
+        return render(request, 'profiles/profile_detail.html', {'user': user})
 
 
 class UpsertTagViewAbstractBase(LoginRequiredMixin, View):
@@ -32,6 +36,10 @@ class UpsertTagViewAbstractBase(LoginRequiredMixin, View):
         user_tag = self.model.objects.filter(user=request.user, tag=tag).first()
         form = self.get_form_class()(request.POST, instance=user_tag)
         if form.is_valid():
+            user_tag = form.save(commit=False)
+            user_tag.user = request.user
+            user_tag.tag = tag
+            user_tag.save()
             return redirect(request.user.get_absolute_url())
         return render(
             request, self.template_name,

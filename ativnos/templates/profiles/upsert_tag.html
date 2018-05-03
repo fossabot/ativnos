@@ -9,11 +9,13 @@
     <h2>{{ tag.name }}</h2>
     <h4>add this cause to your profile</h4>
     <p>Describe your involvement. How have you been involved? What have you done? What would you like to do? You may Include links.</p>
-    <form method="POST" action="{% url 'profiles:upsert-cause' tag.pk %}">
+    <form method="POST" action="{{ tag.add_user_tag_url }}">
         {% csrf_token %}        
         {{ form|crispy }}
         <button type="submit" class="btn btn-primary">{% trans "Submit" %}</button>
     </form>
-    <form method="POST" action="{% url 'profiles:delete-cause' tag.pk %}">{% csrf_token %}<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button></form>
+    {% if user_tag %}
+    <form method="POST" action="{{ tag.delete_user_tag_url }}">{% csrf_token %}<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button></form>
+    {% endif %}
 </div>
 {% endblock content %}

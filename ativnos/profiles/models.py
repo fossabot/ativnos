@@ -7,8 +7,7 @@ from ativnos.tags.models import Cause, Skill
 class UserTagAbstractBase(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    
     description = models.TextField(max_length=300, blank=True)
 
     class Meta:
@@ -20,8 +19,12 @@ class UserTagAbstractBase(models.Model):
 
 
 class UserCause(UserTagAbstractBase):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='causes', related_query_name='cause')
     tag = models.ForeignKey(Cause, on_delete=models.CASCADE)
 
 
 class UserSkill(UserTagAbstractBase):
+    user = models.ForeignKey(
+        settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='skills', related_query_name='skill')
     tag = models.ForeignKey(Skill, on_delete=models.CASCADE)

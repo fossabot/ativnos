@@ -1,47 +1,51 @@
-{% extends "base.html" %} {% load static %} {% block title %}User: {{ object.username }}{% endblock %} {% block content %}
+{% extends "base.html" %} 
+{% load i18n %}
+
+{% block title %}User: {{ object.username }}{% endblock %} 
+ 
+{% block content %}
 <div class="container">
 
     <div class="row">
         <div class="col">
 
-            <h2>Evan Roman</h2>
-            <p>I do whatever. Here is my github</p>
+            <h2>{{ user.first_name|default:"Anonymous" }}</h2>
+            <p>{{ user.description }}</p>
+            {% if request.user == user %}
+            <a href="#" class="btn btn-secondary btn-sm">edit</a>
+            {% endif %}
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h3>Causes</h3>
+            <h3>Causes{% if request.user == user %} <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+            {% for instance in user.causes.all %}
             <div class="card">
                 <div class="card-body">
-                    <h5 class="card-title">Intactivism</h5>
-                    <p class="card-text">Optional Text here</p>
+                    <h5 class="card-title">{{ instance.tag.name }}</h5>
+                    <p class="card-text">{{ instance.description }}</p>
                 </div>
             </div>
+            {% empty %}
+            <p>{% trans "no causes added yet" %}</p>
+            {% endfor %}
         </div>
     </div>
     <div class="row">
-        <div class="col">
-            <h3>Skills</h3>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Programming</h5>
-                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
+            <div class="col">
+                <h3>skills{% if request.user == user %} <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+                {% for instance in user.skills.all %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">{{ instance.tag.name }}</h5>
+                        <p class="card-text">{{ instance.description }}</p>
+                    </div>
                 </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Programming</h5>
-                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">Programming</h5>
-                    <p class="card-text">Optional Text here bla bla bla sdjskajdksajdksajd kjaskdjask dskadj asdjksadjsakj dsakdj sa</p>
-                </div>
+                {% empty %}
+                <p>{% trans "no skills added yet" %}</p>
+                {% endfor %}
             </div>
         </div>
-    </div>
     {% if object == request.user %}
     <!-- Action buttons -->
     <div class="row">

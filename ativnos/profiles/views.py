@@ -12,8 +12,12 @@ from .models import UserCause, UserSkill
 class UserProfileView(View):
     model = get_user_model()
 
+    def get_queryset(self):
+        return self.model.objects.prefetch_related('skills__tag').prefetch_related('causes__tag')
+
     def get(self, request, pk):
-        user = get_object_or_404(self.model, pk=pk)
+
+        user = get_object_or_404(self.get_queryset(), pk=pk)
         return render(request, 'profiles/profile_detail.html', {'user': user})
 
 

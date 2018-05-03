@@ -25,6 +25,10 @@ urlpatterns = [
         r"^profiles/",
         include("ativnos.profiles.urls", namespace="profiles"),
     ),
+    url(
+        r"^tags/",
+        include("ativnos.tags.urls", namespace="tags"),
+    )
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
 )

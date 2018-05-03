@@ -33,6 +33,10 @@ urlpatterns = [
     path(
         'tags/',
         include("ativnos.tags.urls", namespace="tags"),
+    ),
+    path(
+        'tasks/',
+        include("ativnos.tasks.urls", namespace="tasks"),
     )
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

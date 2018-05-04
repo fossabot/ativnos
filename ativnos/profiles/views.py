@@ -42,7 +42,7 @@ class UpdateProfileView(View):
         return render(request, self.template_name, {'form': form}, status=400)
 
 
-class UpsertTagViewAbstractBase(LoginRequiredMixin, View):
+class AbstractUpsertTagView(LoginRequiredMixin, View):
     template_name = 'profiles/upsert_tag.html'
 
     def get_form_class(self):
@@ -71,26 +71,26 @@ class UpsertTagViewAbstractBase(LoginRequiredMixin, View):
             {'tag': tag, 'user_tag': user_tag, 'form': form}, status=400)
 
 
-class UpsertCause(UpsertTagViewAbstractBase):
+class UpsertCause(AbstractUpsertTagView):
     model = UserCause
     tag = Cause
 
 
-class UpsertSkill(UpsertTagViewAbstractBase):
+class UpsertSkill(AbstractUpsertTagView):
     model = UserSkill
     tag = Skill
 
 
-class DeleteUserTagAbstractBase(LoginRequiredMixin, View):
+class AbstractDeleteUserTagView(LoginRequiredMixin, View):
     def post(self, request, pk):
         user_tag = get_object_or_404(self.model, tag__pk=pk, user=request.user)
         user_tag.delete()
         return redirect(request.user.get_absolute_url())
 
 
-class DeleteCause(DeleteUserTagAbstractBase):
+class DeleteCause(AbstractDeleteUserTagView):
     model = UserCause
 
 
-class DeleteSkill(DeleteUserTagAbstractBase):
+class DeleteSkill(AbstractDeleteUserTagView):
     model = UserSkill

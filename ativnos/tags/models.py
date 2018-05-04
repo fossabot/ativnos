@@ -2,9 +2,9 @@ from django.db import models
 from django.urls import reverse
 
 
-class TagAbstractBase(models.Model):
+class AbstractTag(models.Model):
     created = models.DateTimeField(auto_now_add=True)
-    modified = models.DateTimeField(auto_now=True)  
+    modified = models.DateTimeField(auto_now=True)
 
     name = models.CharField(max_length=50)
 
@@ -21,9 +21,9 @@ class TagAbstractBase(models.Model):
     @property
     def delete_user_tag_url(self):
         raise NotImplementedError
-        
 
-class Cause(TagAbstractBase):
+
+class Cause(AbstractTag):
     @property
     def add_user_tag_url(self):
         return reverse('profiles:upsert-cause', kwargs={'pk': self.pk})
@@ -33,7 +33,7 @@ class Cause(TagAbstractBase):
         return reverse('profiles:delete-cause', kwargs={'pk': self.pk})
 
 
-class Skill(TagAbstractBase):
+class Skill(AbstractTag):
     @property
     def add_user_tag_url(self):
         return reverse('profiles:upsert-skill', kwargs={'pk': self.pk})

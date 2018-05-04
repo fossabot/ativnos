@@ -3,7 +3,7 @@ from django.views.generic.list import ListView
 from .models import Cause, Skill
 
 
-class TagListViewAbstractBase(ListView):
+class AbstractTagListView(ListView):
     template_name = 'tags/tag_list.html'
 
     def get_context_data(self, **kwargs):
@@ -12,9 +12,9 @@ class TagListViewAbstractBase(ListView):
         return context
 
 
-class CauseListView(TagListViewAbstractBase):
+class CauseListView(AbstractTagListView):
     model = Cause
 
 
-class SkillsListView(TagListViewAbstractBase):
+class SkillsListView(AbstractTagListView):
     model = Skill

@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, DeleteView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelform_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -78,11 +78,15 @@ class SkillUpsertView(AbstractTagUpsertView):
     tag = Skill
 
 
-class AbstractTagDeleteView(LoginRequiredMixin, View):
-    def post(self, request, pk):
-        user_tag = get_object_or_404(self.model, tag__pk=pk, user=request.user)
-        user_tag.delete()
-        return redirect(request.user.get_absolute_url())
+class AbstractTagDeleteView(LoginRequiredMixin, DeleteView):
+    http_method_names = ['post']
+
+    def get_success_url(self):
+        return self.request.user.get_absolute_url()
+            
+    def get_object(self):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        return get_object_or_404(self.model, tag__pk=pk, user=self.request.user)
 
 
 class CauseDeleteView(AbstractTagDeleteView):

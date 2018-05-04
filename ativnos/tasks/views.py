@@ -1,10 +1,12 @@
 from django.http import HttpResponse
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, DeleteView
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelform_factory
+
+from ativnos.helpers.views import CreateView
 
 from .models import Task
 
@@ -17,36 +19,28 @@ class TaskDetailView(DetailView):
         return self.model.objects.select_related('user', 'cause', 'skill')
 
 
-class TaskCreateView(LoginRequiredMixin, View):
+class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'tasks/create.html'
-
-    def get_form_class(self):
-        return modelform_factory(self.model, fields=['cause', 'skill', 'name', 'description'])
-
-    def get(self, request):
-        form = self.get_form_class()
-        return render(request, self.template_name, {'form': form})
-
-    def post(self, request):
-        form = self.get_form_class()(request.POST)
-        if form.is_valid():
-            task = form.save(commit=False)
-            task.user = request.user
-            task.save()
-            return redirect(task.get_absolute_url())
-        return render(request, self.template_name, {'form': form}, status=400)
+    fields = ['cause', 'skill', 'name', 'description']
+    
+    def form_valid(self, form):        
+        self.object = form.save(commit=False)
+        self.object.user = self.request.user
+        self.object.save()
+        return redirect(self.get_success_url())
 
 
-class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SingleObjectMixin, View):
+class TaskDeleteView(UserPassesTestMixin, DeleteView):
+    http_method_names = ['post']
     raise_exception = True
     model = Task
 
     def test_func(self):
         return self.get_object().user == self.request.user
 
-    def post(self, request, pk):
-        return HttpResponse('hi')
+    def get_success_url(self):
+        return '/'
 
 
 class TaskListView(ListView):

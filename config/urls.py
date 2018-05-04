@@ -5,7 +5,7 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 from django.urls import path, re_path, include
 
-from ativnos.profiles.views import UserProfileView
+from ativnos.profiles.views import ProfileDetailView
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="pages/home.html"), name="home"),
@@ -18,7 +18,7 @@ urlpatterns = [
     re_path(settings.ADMIN_URL, admin.site.urls),
     # User management
     path(
-        'user/<int:pk>', UserProfileView.as_view(), name="profile"
+        'user/<int:pk>', ProfileDetailView.as_view(), name="profile"
     ),
     path(
         'users/',

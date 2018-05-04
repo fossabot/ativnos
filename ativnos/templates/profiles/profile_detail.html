@@ -9,22 +9,22 @@
     <div class="row">
         <div class="col">
 
-            <h2>{{ user.name|default:"Anonymous" }}</h2>
-            <p>{{ user.description }}</p>
-            {% if request.user == user %}
+            <h2>{{ object.name|default:"Anonymous" }}</h2>
+            <p>{{ object.description }}</p>
+            {% if request.user == object %}
             <a href="{% url 'profiles:update' %}" class="btn btn-secondary btn-sm">edit</a>
             {% endif %}
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h3>Causes{% if request.user == user %} <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
-            {% for item in user.causes.all %}
+            <h3>Causes{% if request.user == object %} <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+            {% for item in object.causes.all %}
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ item.tag.name }}</h5>
                     <p class="card-text">{{ item.description }}</p>
-                    {% if request.user == user %}
+                    {% if request.user == object %}
                     <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
                     {% endif %}
                 </div>
@@ -36,13 +36,13 @@
     </div>
     <div class="row">
             <div class="col">
-                <h3>skills{% if request.user == user %} <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
-                {% for item in user.skills.all %}
+                <h3>skills{% if request.user == object %} <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+                {% for item in object.skills.all %}
                 <div class="card">
                     <div class="card-body">
                         <h5 class="card-title">{{ item.tag.name }}</h5>
                         <p class="card-text">{{ item.description }}</p>
-                        {% if request.user == user %}
+                        {% if request.user == object %}
                         <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
                         {% endif %}
                     </div>

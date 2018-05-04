@@ -1,7 +1,7 @@
 from django.http import HttpResponse
 from django.views import View
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelform_factory
@@ -9,18 +9,15 @@ from django.forms import modelform_factory
 from .models import Task
 
 
-class TaskView(SingleObjectMixin, View):
+class TaskDetailView(DetailView):
     model = Task
     template_name = 'tasks/detail.html'
-    
+
     def get_queryset(self):
         return self.model.objects.select_related('user', 'cause', 'skill')
 
-    def get(self, request, pk):        
-        return render(request, self.template_name, {'object': self.get_object()})
 
-
-class CreateTaskView(LoginRequiredMixin, View):
+class TaskCreateView(LoginRequiredMixin, View):
     model = Task
     template_name = 'tasks/create.html'
 
@@ -41,9 +38,9 @@ class CreateTaskView(LoginRequiredMixin, View):
         return render(request, self.template_name, {'form': form}, status=400)
 
 
-class DeleteTaskView(LoginRequiredMixin, UserPassesTestMixin, SingleObjectMixin, View):
-    raise_exception = True 
-    model = Task 
+class TaskDeleteView(LoginRequiredMixin, UserPassesTestMixin, SingleObjectMixin, View):
+    raise_exception = True
+    model = Task
 
     def test_func(self):
         return self.get_object().user == self.request.user
@@ -58,4 +55,3 @@ class TaskListView(ListView):
 
     def get_queryset(self):
         return self.model.objects.select_related('user', 'cause', 'skill')
-

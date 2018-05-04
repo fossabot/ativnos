@@ -7,22 +7,22 @@ from ativnos.users.tests.factories import UserFactory
 from ativnos.profiles import views
 
 
-class UserProfileViewTestCase(TestCase):
+class ProfileDetailViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.view = views.UserProfileView.as_view()
+        self.view = views.ProfileDetailView.as_view()
         self.resource = reverse('profile', kwargs={'pk': self.user.pk})
         self.factory = RequestFactory()
 
     def test_get(self):
-        res = self.view(self.factory.get(self.resource), self.user.pk)
+        res = self.view(self.factory.get(self.resource), pk=self.user.pk)
         self.assertEqual(res.status_code, 200)
     
 
-class UpdateProfileViewTestCase(TestCase):
+class ProfileUpdateViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
-        self.view = views.UpdateProfileView.as_view()
+        self.view = views.ProfileUpdateView.as_view()
         self.resource = reverse('profiles:update')
         self.factory = RequestFactory()
 
@@ -33,7 +33,7 @@ class UpdateProfileViewTestCase(TestCase):
         self.assertEqual(res.status_code, 200)
 
 
-class UpsertTagMixin():
+class TagUpsertMixin():
     def setUp(self):
         self.tag = self.tag_factory()
         self.user = UserFactory()
@@ -48,11 +48,22 @@ class UpsertTagMixin():
         self.assertEqual(res.status_code, 200)
 
 
-class UpsertSkillTestCase(UpsertTagMixin, TestCase):
+class SkillUpsertViewTestCase(TagUpsertMixin, TestCase):
     tag_factory = SkillFactory
-    view_class = views.UpsertSkill
+    view_class = views.SkillUpsertView
 
 
-class UpsertCauseTestCase(UpsertTagMixin, TestCase):
+class CauseUpsertViewTestCase(TagUpsertMixin, TestCase):
     tag_factory = CauseFactory
-    view_class = views.UpsertCause
+    view_class = views.CauseUpsertView
+
+
+class TagDeleteMixin():
+    def setUp(self):
+        self.user_tag = self.user_tag_factory()
+        self.view = self.view_class.as_view()
+        self.resource = reverse('profiles:upsert-cause', kwargs={'pk': self.user_tag.tag.pk})
+        self.factory = RequestFactory()
+    
+    def test_post(self):
+        pass

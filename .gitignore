@@ -293,4 +293,5 @@ ativnos/media/
 .envs/*
 !.envs/.local/
 
-.vscode
+.vscode/
+.pytest_cache/

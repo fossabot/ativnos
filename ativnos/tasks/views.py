@@ -1,10 +1,6 @@
-from django.http import HttpResponse
-from django.views import View
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import redirect
 from django.views.generic import ListView, DetailView, DeleteView
-from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.forms import modelform_factory
 
 from ativnos.helpers.views import CreateView
 
@@ -40,7 +36,7 @@ class TaskDeleteView(UserPassesTestMixin, DeleteView):
         return self.get_object().user == self.request.user
 
     def get_success_url(self):
-        return '/'
+        return f'{self.request.user.get_absolute_url()}#tasks'
 
 
 class TaskListView(ListView):

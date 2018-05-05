@@ -66,6 +66,8 @@
                     <p class="card-text">{{ object.description }}</p>
                 </div>
             </div>
+            {% empty %}
+            <p>{% trans "no tasks added yet" %}</p>
             {% endfor %}
         </div>
     </div>

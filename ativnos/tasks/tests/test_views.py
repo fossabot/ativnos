@@ -1,10 +1,16 @@
+from parameterized import parameterized
+
 from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import AnonymousUser
+from django.core.exceptions import PermissionDenied
 
-from ativnos.helpers.testing import DetailViewMixin, ListViewMixin, get
+from ativnos.helpers.testing import DetailViewMixin, ListViewMixin, get, post
 from ativnos.tasks.tests.factories import TaskFactory
 from ativnos.tags.tests.factories import CauseFactory, SkillFactory
 from ativnos.users.tests.factories import UserFactory
+
+from ativnos.tasks.models import Task
 
 from ativnos.tasks import views
 
@@ -41,4 +47,33 @@ class TaskCreateViewTestCase(TestCase):
         
     
 class TaskDeleteViewTestCase(TestCase):
-    pass
+    view_class = views.TaskDeleteView
+    url_name = 'tasks:delete'
+    
+    def setUp(self):
+        self.task = TaskFactory()
+        self.view = self.view_class.as_view()
+        self.resource = reverse(self.url_name, kwargs={'pk': self.task.pk})        
+
+    @parameterized.expand([
+        ("task owner", lambda x: x.user, True,),
+        ("other user", lambda x: UserFactory(), False,),
+        ("non user", lambda x: AnonymousUser(), False,),
+    ])
+    def test_post(self, name, get_user, authorized):
+        """
+        Only creating user can delete task.
+        other users are unauthorized
+        non users are unauthorized
+        """        
+        req = post(self.resource)
+        req.user = get_user(self.task)
+        if authorized:
+            res = self.view(req, pk=self.task.pk)
+            self.assertEqual(res.status_code, 302)
+        else:
+            self.assertRaises(PermissionDenied,  self.view, req, pk=self.task.pk)
+        
+        self.assertNotEqual(Task.objects.filter(pk=self.task.pk).exists(), authorized)
+        
+        

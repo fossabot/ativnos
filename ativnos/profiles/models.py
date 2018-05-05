@@ -21,7 +21,7 @@ class AbstractUserTag(models.Model):
         unique_together = (('user', 'tag'),)
 
     def __str__(self):
-        return "{user}: {tag}".format(user=self.user, tag=self.tag)
+        return f"{self.user}: {self.tag}"
 
 
 class UserCause(AbstractUserTag):

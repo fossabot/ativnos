@@ -9,7 +9,7 @@
             <p class="card-text">{{ object.description }}</p>
         </div>
         {% if object.user == user %}
-        <form method="POST" action="{{ tag.delete_user_tag_url }}">{% csrf_token %}<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button></form>
+        <form method="POST" action="{% url  'tasks:delete' object.pk %}">{% csrf_token %}<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button></form>
         {% endif %}
     </div>
 </div>

@@ -22,3 +22,8 @@ ufw enable
 # install npm for building static assets
 apt-get install npm
 npm_install
+
+# install docker-compose service
+cp $APP_DIR/deploy/ativnos.service /etc/systemd/system
+systemctl daemon-reload
+systemctl enable ativnos

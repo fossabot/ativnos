@@ -52,13 +52,16 @@
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
-                {# URL provided by django-allauth/account/urls.py #}
                 <a class="nav-link" href="{{ request.user.get_absolute_url  }}">{% trans "My Profile" %}</a>
               </li>
               <li class="nav-item">
+                  {# URL provided by django-allauth/account/urls.py #}
+                  <a class="nav-link" href="{% url 'account_change_password' %}">{% trans "Change Password" %}</a>
+                </li>
+              <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}
                 <a class="nav-link" href="{% url 'account_logout' %}">{% trans "Sign Out" %}</a>
-              </li>
+              </li>              
             {% else %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}

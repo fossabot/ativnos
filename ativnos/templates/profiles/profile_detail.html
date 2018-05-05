@@ -1,6 +1,5 @@
 {% extends "base.html" %} {% load i18n %} {% block title %}User: {{ object.username }}{% endblock %} {% block content %}
 <div class="container">
-
     <div class="row">
         <div class="col">
 
@@ -56,18 +55,18 @@
             </h3>
             {% for item in object.tasks.all %}
             <div class="card">
-                    <div class="card-body">
-                
-                        <h5 class="card-title">
-                            <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
-                        </h5>
-                        <h6>{% trans "for cause" %}:
-                            <span class="btn btn-info btn-sm">{{ item.cause.name }}</span> {% trans "skill needed:" %}
-                            <span class="btn btn-warning btn-sm">{{ item.skill.name }}</span>
-                        </h6>
-                        <p class="card-text">{{ object.description }}</p>
-                    </div>
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
+                    </h5>
+                    <h6>{% trans "for cause" %}:
+                        <span class="btn btn-info btn-sm">{{ item.cause.name }}</span> {% trans "skill needed:" %}
+                        <span class="btn btn-warning btn-sm">{{ item.skill.name }}</span>
+                    </h6>
+                    <p class="card-text">{{ object.description }}</p>
                 </div>
+            </div>
             {% empty %}
             <p>{% trans "no tasks added yet" %}</p>
             {% endfor %}

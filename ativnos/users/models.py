@@ -19,7 +19,7 @@ class User(AbstractUser):
         ))
 
     def __str__(self):
-        return self.username
+        return f"{self.name} <{self.email}>"
 
     def get_absolute_url(self):
         return reverse("profile", kwargs={"pk": self.pk})

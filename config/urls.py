@@ -19,7 +19,11 @@ urlpatterns = [
     # User management
     path(
         'user/<int:pk>', ProfileDetailView.as_view(), name="profile"
-    ),    
+    ),
+    path(
+        'users/',
+        include("ativnos.users.urls", namespace="users"),
+    ),
     path('accounts/', include("allauth.urls")),
     # Your stuff: custom urls includes go here
     path(

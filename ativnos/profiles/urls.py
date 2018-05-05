@@ -4,6 +4,7 @@ from . import views
 
 app_name = "profiles"
 urlpatterns = [
+    path('', views.ProfileListView.as_view(), name='list'),
     path('update/', views.ProfileUpdateView.as_view(), name='update'),
     path('cause/<int:pk>', views.CauseUpsertView.as_view(), name='upsert-cause'),
     path('skill/<int:pk>', views.SkillUpsertView.as_view(), name='upsert-skill'),

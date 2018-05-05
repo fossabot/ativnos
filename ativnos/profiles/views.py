@@ -1,6 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.views import View
-from django.views.generic import DetailView, DeleteView
+from django.views.generic import DetailView, DeleteView, ListView
 from django.shortcuts import render, get_object_or_404, redirect
 from django.forms import modelform_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -19,7 +19,17 @@ class ProfileDetailView(DetailView):
             self.model.objects
             .prefetch_related('skills__tag', 'causes__tag', 'tasks__cause', 'tasks__skill')
         )
-            
+
+
+class ProfileListView(ListView):
+    template_name = 'profiles/list.html'
+    model = get_user_model()
+
+    def get_queryset(self):
+        return (
+            self.model.objects
+            .prefetch_related('skills__tag', 'causes__tag')
+        )
 
 
 class ProfileUpdateView(View):

@@ -1,4 +1,4 @@
-{% load static i18n %}<!DOCTYPE html>
+{% load i18n %}<!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -23,7 +23,7 @@
     
     <!-- This file stores project-specific CSS -->
     
-    <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
+    {# <link href="{% static 'css/project.min.css' %}" rel="stylesheet"> #}
     
     
     {% endblock %}
@@ -107,7 +107,7 @@
 
       <!-- place project specific Javascript in this file -->
       
-      <script src="{% static 'js/project.js' %}"></script>
+      {# <script src="{% static 'js/project.js' %}"></script> #}
       
 
     {% endblock javascript %}

@@ -111,6 +111,6 @@ gulp.task('watch', function() {
 });
 
 // Default task
-gulp.task('default', function() {
-    runSequence(['styles', 'scripts', 'imgCompression'], ['runServer', 'browserSync', 'watch']);
+gulp.task('build', function() {
+    runSequence(['styles', 'scripts', 'imgCompression']);
 });

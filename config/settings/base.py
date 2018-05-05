@@ -241,7 +241,7 @@ SOCIALACCOUNT_ADAPTER = 'ativnos.users.adapters.SocialAccountAdapter'
 
 
 def _get_user_display(user):
-    return user.name
+    return str(user)
 
 
 ACCOUNT_USER_DISPLAY = _get_user_display

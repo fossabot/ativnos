@@ -18,7 +18,10 @@ migrate_databse() {
 }
 
 restart_service() {
-    systemctl restart ativnos
+    cd $APP_DIR || exit 1
+    systemctl stop ativnos
+    docker-compose -f production.yml build django
+    systemctl start ativnos
 }
 
 update_vcs

@@ -1,9 +1,4 @@
-{% extends "base.html" %} 
-{% load i18n %}
-
-{% block title %}User: {{ object.username }}{% endblock %} 
- 
-{% block content %}
+{% extends "base.html" %} {% load i18n %} {% block title %}User: {{ object.username }}{% endblock %} {% block content %}
 <div class="container">
 
     <div class="row">
@@ -18,7 +13,8 @@
     </div>
     <div class="row">
         <div class="col">
-            <h3>Causes{% if request.user == object %} <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+            <h3 class="text-muted">{% trans "Causes" %}{% if request.user == object %}
+                <a href="{% url 'tags:causes' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
             {% for item in object.causes.all %}
             <div class="card">
                 <div class="card-body">
@@ -35,37 +31,44 @@
         </div>
     </div>
     <div class="row">
-            <div class="col">
-                <h3>skills{% if request.user == object %} <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
-                {% for item in object.skills.all %}
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">{{ item.tag.name }}</h5>
-                        <p class="card-text">{{ item.description }}</p>
-                        {% if request.user == object %}
-                        <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
-                        {% endif %}
-                    </div>
+        <div class="col">
+            <h3 class="text-muted">{% trans "Skills" %}{% if request.user == object %}
+                <a href="{% url 'tags:skills' %}" class="btn btn-secondary btn-sm">add</a>{% endif %}</h3>
+            {% for item in object.skills.all %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ item.tag.name }}</h5>
+                    <p class="card-text">{{ item.description }}</p>
+                    {% if request.user == object %}
+                    <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
+                    {% endif %}
                 </div>
-                {% empty %}
-                <p>{% trans "no skills added yet" %}</p>
-                {% endfor %}
             </div>
+            {% empty %}
+            <p>{% trans "no skills added yet" %}</p>
+            {% endfor %}
         </div>
-    {% if object == request.user %}
-    <!-- Action buttons -->
-    <div class="row">
-
-        <div class="col-sm-12">
-            <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">My Info</a>
-            <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>
-            <!-- Your Stuff: Custom user template urls -->
-        </div>
-
     </div>
-    <!-- End Action buttons -->
-    {% endif %}
+    <div class="row">
+        <div class="col">
+            <h3 id="tasks" class="text-muted">{% trans "Tasks" %}
+                <a href="{% url 'tasks:create' %}" class="btn btn-secondary btn-sm">{% trans "create task" %}</a>
+            </h3>
+            {% for item in object.tasks.all %}
+            <div class="card">
+                <div class="card-body">
 
+                    <h5 class="card-title">{{ item.name }}</h5>
+                    <h6>{% trans "for cause" %}:
+                        <span class="btn btn-info">{{ item.cause.name }}</span> {% trans "skill needed:" %}
+                        <span class="btn btn-warning">{{ item.skill.name }}</span>
+                    </h6>                       
+                    <p class="card-text">{{ object.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
 
 </div>
 {% endblock content %}

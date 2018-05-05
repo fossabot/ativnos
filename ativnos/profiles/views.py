@@ -15,7 +15,11 @@ class ProfileDetailView(DetailView):
     model = get_user_model()
 
     def get_queryset(self):
-        return self.model.objects.prefetch_related('skills__tag').prefetch_related('causes__tag')
+        return (
+            self.model.objects
+            .prefetch_related('skills__tag', 'causes__tag', 'tasks__cause', 'tasks__skill')
+        )
+            
 
 
 class ProfileUpdateView(View):

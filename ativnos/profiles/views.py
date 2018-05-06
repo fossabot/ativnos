@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.forms import modelform_factory
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -10,9 +10,12 @@ from ativnos.tags.models import Cause, Skill
 from .models import UserCause, UserSkill
 
 
-class ProfileDetailView(DetailView):
+class ProfileDetailView(UserPassesTestMixin, DetailView):
     template_name = 'profiles/profile_detail.html'
     model = get_user_model()
+
+    def test_func(self):
+        return self.request.user.is_authenticated or self.get_object().is_public
 
     def get_queryset(self):
         return (self.model.objects.prefetch_related(
@@ -24,16 +27,19 @@ class ProfileListView(ListView):
     model = get_user_model()
 
     def get_queryset(self):
-        return (self.model.objects.prefetch_related('skills__tag',
-                                                    'causes__tag'))
+        qs = self.model.objects.prefetch_related('skills__tag', 'causes__tag')
+        if self.request.user.is_authenticated:
+            return qs
+        return qs.filter(is_public=True)
 
 
-class ProfileUpdateView(View):
+class ProfileUpdateView(LoginRequiredMixin, View):
     template_name = 'profiles/update.html'
     model = get_user_model()
 
     def get_form_class(self):
-        return modelform_factory(self.model, fields=['name', 'description'])
+        return modelform_factory(
+            self.model, fields=['name', 'description', 'is_public'])
 
     def get(self, request):
         instance = request.user

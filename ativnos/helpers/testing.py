@@ -1,13 +1,34 @@
 """
 Helper functions and classes for tests. They should only be used in tests.
 """
-
+from django.contrib.auth.models import AnonymousUser
 from django.test import RequestFactory
+from django.test.client import MULTIPART_CONTENT
 from django.urls import reverse
 
-get = RequestFactory().get
 
-post = RequestFactory().post
+def get(path, data=None, secure=False, user=None, **extra):
+    user = user or AnonymousUser()
+    req = RequestFactory().get(path=path, data=data, secure=secure, **extra)
+    req.user = user
+    return req
+
+
+def post(path,
+         data=None,
+         content_type=MULTIPART_CONTENT,
+         secure=False,
+         user=None,
+         **extra):
+    user = user or AnonymousUser()
+    req = RequestFactory().post(
+        path=path,
+        content_type=content_type,
+        data=data,
+        secure=secure,
+        **extra)
+    req.user = user
+    return req
 
 
 class DetailViewMixin():

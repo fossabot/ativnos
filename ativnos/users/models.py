@@ -21,6 +21,13 @@ class User(AbstractUser):
             "Describe yourself. What have you done? What do you want to do? "
             "Include ways to be contacted if you want to help."))
 
+    is_public = models.BooleanField(
+        _("Viewable by public internet"),
+        default=False,
+        help_text=_(
+            "Only logged in users can view your profile and tasks by default. "
+            "If enabled, anyone can view your profile and tasks."))
+
     def __str__(self):
         return f"{self.name} <{self.email}>"
 

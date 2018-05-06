@@ -3,6 +3,8 @@ from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
+DISPLAY_NAME_LENGTH = 50
+
 
 class User(AbstractUser):
 
@@ -11,7 +13,7 @@ class User(AbstractUser):
     name = models.CharField(
         _("Display Name"),
         blank=True,
-        max_length=255,
+        max_length=DISPLAY_NAME_LENGTH,
         help_text=_("Name displayed to other users"))
     description = models.TextField(
         _("Description"),

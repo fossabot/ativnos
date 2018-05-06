@@ -239,6 +239,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'ativnos.users.forms.ExtraSignUpForm'
+
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 # ACCOUNT_ADAPTER = 'ativnos.users.adapters.AccountAdapter'
 # For closed beta, use invite adapter

@@ -17,3 +17,6 @@ django-redis==4.9.0  # https://github.com/niwinz/django-redis
 # Django REST Framework
 djangorestframework==3.8.2  # https://github.com/encode/django-rest-framework
 coreapi==2.3.3  # https://github.com/core-api/python-client
+
+# For closed beta
+django-invitations==1.9.2  # https://github.com/bee-keeper/django-invitations

@@ -6,21 +6,8 @@
 Welcome to ativnos's documentation!
 ====================================================================
 
-Contents:
 
 .. toctree::
    :maxdepth: 2
 
-   install
-   deploy
-   docker_ec2
-   tests
-
-
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+   userguide

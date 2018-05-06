@@ -1,4 +1,4 @@
-{% extends "base.html" %} {% load static i18n %} {% block title %}Tags{% endblock %} {% block content %}
+{% extends "base.html" %} {% load static i18n %} {% block title %}tasks - ativnos{% endblock %} {% block content %}
 <div class="container">
     <a href="{% url 'tasks:create' %}" class="btn btn-primary">{% trans "Create task" %}</a>
     {% for object in object_list %}

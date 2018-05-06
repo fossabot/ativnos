@@ -10,7 +10,7 @@
     </div>
     <div class="row">        
         <div class="col">            
-            <p>{{ object.description }}</p>
+            <p>{{ object.description|urlize }}</p>
             <p class="text-muted">            
             {% trans "This profile is " %}
             {% if object.is_public %}
@@ -35,7 +35,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ item.tag.name }}</h5>
-                    <p class="card-text">{{ item.description }}</p>
+                    <p class="card-text">{{ item.description|urlize }}</p>
                     {% if request.user == object %}
                     <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
                     {% endif %}
@@ -54,7 +54,7 @@
             <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">{{ item.tag.name }}</h5>
-                    <p class="card-text">{{ item.description }}</p>
+                    <p class="card-text">{{ item.description|urlize }}</p>
                     {% if request.user == object %}
                     <a href="{{ item.tag.add_user_tag_url }}" class="btn btn-secondary btn-sm">edit</a>
                     {% endif %}
@@ -81,7 +81,7 @@
                         <span class="btn btn-info btn-sm">{{ item.cause.name }}</span> {% trans "skill needed:" %}
                         <span class="btn btn-warning btn-sm">{{ item.skill.name }}</span>
                     </h6>
-                    <p class="card-text">{{ object.description }}</p>
+                    <p class="card-text">{{ item.description|urlize }}</p>
                 </div>
             </div>
             {% empty %}

@@ -6,7 +6,7 @@
             <h2 class="card-title">{{ object.name }}</h2>
             <h6>for cause: <span class="btn btn-info">{{ object.cause.name }}</span> skill needed: <span class="btn btn-warning">{{ object.skill.name }}</span></h6>
             <h6 class="card-subtitle mb-2 text-muted">created by: <a href="{{ object.user.get_absolute_url }}">{{ object.user.name }}&nbsp;<img src="{{ object.user.avatar_url_small }}" alt="" /></a></h6>
-            <p class="card-text">{{ object.description }}</p>
+            <p class="card-text">{{ object.description|urlize }}</p>
         </div>
         {% if object.user == user %}
         <form method="POST" action="{% url  'tasks:delete' object.pk %}">{% csrf_token %}<button type="submit" class="btn btn-danger">{% trans "Delete" %}</button></form>

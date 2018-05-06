@@ -1,9 +1,22 @@
+import hashlib
+from urllib.parse import urlencode
+
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 DISPLAY_NAME_LENGTH = 50
+
+
+def _generate_gravatar_url(email, size=16):
+    gravatar_url = 'https://www.gravatar.com/avatar/{hash}?{qs}'.format(
+        hash=hashlib.md5(email.lower().encode()).hexdigest(),
+        qs=urlencode({
+            'd': 'mm',
+            's': str(size)
+        }))
+    return gravatar_url
 
 
 class User(AbstractUser):
@@ -35,3 +48,11 @@ class User(AbstractUser):
 
     def get_absolute_url(self):
         return reverse("profile", kwargs={"pk": self.pk})
+
+    @property
+    def avatar_url_small(self):
+        return _generate_gravatar_url(self.email, 16)
+
+    @property
+    def avatar_url_medium(self):
+        return _generate_gravatar_url(self.email, 50)

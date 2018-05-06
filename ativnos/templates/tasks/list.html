@@ -1,20 +1,20 @@
 {% extends "base.html" %} {% load static i18n %} {% block title %}Tags{% endblock %} {% block content %}
 <div class="container">
     <a href="{% url 'tasks:create' %}" class="btn btn-primary">{% trans "Create task" %}</a>
-    {% for item in object_list %}
+    {% for object in object_list %}
     <div class="card">
         <div class="card-body">
 
             <h5 class="card-title">
-                <a href="{{ item.get_absolute_url }}">{{ item.name }}</a>
+                <a href="{{ object.get_absolute_url }}">{{ object.name }}</a>
             </h5>
             <h6>
                 <span class="text-muted">{% trans "created by:" %}
-                    <a href="{{ object.user.get_absolute_url }}">{{ item.user.name }}</a>
+                    <a href="{{ object.user.get_absolute_url }}">{{ object.user.name }}&nbsp;<img src="{{ object.user.avatar_url_small }}" alt="" /></a>
                 </span>
                 {% trans "for cause" %}:
-                <span class="btn btn-info btn-sm">{{ item.cause.name }}</span> {% trans "skill needed:" %}
-                <span class="btn btn-warning btn-sm">{{ item.skill.name }}</span>
+                <span class="btn btn-info btn-sm">{{ object.cause.name }}</span> {% trans "skill needed:" %}
+                <span class="btn btn-warning btn-sm">{{ object.skill.name }}</span>
             </h6>
             <p class="card-text">{{ object.description }}</p>
         </div>

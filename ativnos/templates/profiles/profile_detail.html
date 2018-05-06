@@ -1,9 +1,15 @@
 {% extends "base.html" %} {% load i18n %} {% block title %}User: {{ object.username }}{% endblock %} {% block content %}
 <div class="container">
     <div class="row">
-        <div class="col">
-
+        <div class="col align-self-start">
             <h2>{{ object.name|default:"Anonymous" }}</h2>
+        </div>
+        <div class="col align-self-end">
+             <img src="{{ object.avatar_url_medium }}" alt="" />
+        </div>
+    </div>
+    <div class="row">        
+        <div class="col">            
             <p>{{ object.description }}</p>
             <p class="text-muted">            
             {% trans "This profile is " %}

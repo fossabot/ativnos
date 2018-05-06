@@ -6,6 +6,9 @@
 Welcome to ativnos's documentation!
 ====================================================================
 
+Ativnos_ a freelance site for activists.
+
+.. _Ativnos: https://ativnos.org/
 
 .. toctree::
    :maxdepth: 2

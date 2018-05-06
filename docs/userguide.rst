@@ -1,10 +1,12 @@
 User Guide
 ==========
 
-What is Ativnos?
+What is Ativnos_?
 ----------------
 
-Ativnos is a freelance network for activists.
+Ativnos_ is a freelance network for activists.
+
+.. _Ativnos: https://ativnos.org/
 
 Motivation.
 ~~~~~~~~~~~
@@ -20,13 +22,13 @@ help the causes they support.
 How to get started
 ------------------
 
-Right now ativnos is in a closed beta and accounts are created by
+Right now Ativnos_ is in a closed beta and accounts are created by
 invitation only.
 
 You don’t need an account to get involved! check for publicly listed
 tasks here: https://ativnos.org/tasks/
 
-Using Ativnos
+Using Ativnos_
 -------------
 
 By defualt, all new users’ profiles and tasks are only viewable by other

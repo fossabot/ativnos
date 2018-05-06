@@ -6,6 +6,10 @@ A freelance network for activists
 .. image:: https://circleci.com/gh/evrom/ativnos/tree/master.svg?style=shield
     :target: https://circleci.com/gh/evrom/ativnos/tree/master
 
+.. image:: https://readthedocs.org/projects/ativnos/badge/?version=latest
+    :target: http://ativnos.readthedocs.io/en/latest/?badge=latest
+    :alt: Documentation Status
+
 .. image:: https://img.shields.io/badge/built%20with-Cookiecutter%20Django-ff69b4.svg
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django

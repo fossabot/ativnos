@@ -1,9 +1,8 @@
 import factory
 
-from ativnos.users.tests.factories import UserFactory
 from ativnos.tags.tests.factories import CauseFactory, SkillFactory
-
 from ativnos.tasks import models
+from ativnos.users.tests.factories import UserFactory
 
 
 class TaskFactory(factory.django.DjangoModelFactory):

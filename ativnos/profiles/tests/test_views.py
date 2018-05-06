@@ -1,26 +1,25 @@
-from django.test import TestCase, RequestFactory
+from django.test import RequestFactory, TestCase
 from django.urls import reverse
 
-from ativnos.helpers.testing import get, post, DetailViewMixin
+from ativnos.helpers.testing import DetailViewMixin, get, post
+from ativnos.profiles import views
 from ativnos.profiles.models import UserCause, UserSkill
+from ativnos.profiles.tests.factories import UserCauseFactory, UserSkillFactory
 from ativnos.tags.tests.factories import CauseFactory, SkillFactory
 from ativnos.users.tests.factories import UserFactory
-from ativnos.profiles.tests.factories import UserCauseFactory, UserSkillFactory
-
-from ativnos.profiles import views
 
 
 class ProfileDetailViewTestCase(DetailViewMixin, TestCase):
     url_name = 'profile'
     view_class = views.ProfileDetailView
     object_factory = UserFactory
-    
+
 
 class ProfileUpdateViewTestCase(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.view = views.ProfileUpdateView.as_view()
-        self.resource = reverse('profiles:update')        
+        self.resource = reverse('profiles:update')
 
     def test_get(self):
         req = get(self.resource)
@@ -55,17 +54,20 @@ class SkillUpsertViewTestCase(TagUpsertMixin, TestCase):
     view_class = views.SkillUpsertView
 
 
-class TagDeleteMixin():    
+class TagDeleteMixin():
     def setUp(self):
         self.user_tag = self.user_tag_factory()
         self.view = self.view_class.as_view()
-        self.resource = reverse(self.url_name, kwargs={'pk': self.user_tag.tag.pk})
-    
+        self.resource = reverse(
+            self.url_name, kwargs={'pk': self.user_tag.tag.pk})
+
     def test_post(self):
         req = post(self.resource)
         req.user = self.user_tag.user
         res = self.view(req, pk=self.user_tag.tag.pk)
-        self.assertFalse(self.model.objects.filter(user=self.user_tag.user, tag=self.user_tag.tag).exists())
+        self.assertFalse(
+            self.model.objects.filter(
+                user=self.user_tag.user, tag=self.user_tag.tag).exists())
         self.assertEqual(res.status_code, 302)
 
 

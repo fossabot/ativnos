@@ -13,11 +13,20 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='user',
             name='description',
-            field=models.TextField(blank=True, help_text='Describe yourself. What have you done? What do you want to do? Include ways to be contacted if you want to help.', max_length=700, verbose_name='Description'),
+            field=models.TextField(
+                blank=True,
+                help_text=
+                'Describe yourself. What have you done? What do you want to do? Include ways to be contacted if you want to help.',
+                max_length=700,
+                verbose_name='Description'),
         ),
         migrations.AlterField(
             model_name='user',
             name='name',
-            field=models.CharField(blank=True, help_text='Name displayed to other users', max_length=255, verbose_name='Display Name'),
+            field=models.CharField(
+                blank=True,
+                help_text='Name displayed to other users',
+                max_length=255,
+                verbose_name='Display Name'),
         ),
     ]

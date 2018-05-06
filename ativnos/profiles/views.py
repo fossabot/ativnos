@@ -1,9 +1,9 @@
 from django.contrib.auth import get_user_model
-from django.views import View
-from django.views.generic import DetailView, DeleteView, ListView
-from django.shortcuts import render, get_object_or_404, redirect
-from django.forms import modelform_factory
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.forms import modelform_factory
+from django.shortcuts import get_object_or_404, redirect, render
+from django.views import View
+from django.views.generic import DeleteView, DetailView, ListView
 
 from ativnos.tags.models import Cause, Skill
 
@@ -15,10 +15,8 @@ class ProfileDetailView(DetailView):
     model = get_user_model()
 
     def get_queryset(self):
-        return (
-            self.model.objects
-            .prefetch_related('skills__tag', 'causes__tag', 'tasks__cause', 'tasks__skill')
-        )
+        return (self.model.objects.prefetch_related(
+            'skills__tag', 'causes__tag', 'tasks__cause', 'tasks__skill'))
 
 
 class ProfileListView(ListView):
@@ -26,16 +24,14 @@ class ProfileListView(ListView):
     model = get_user_model()
 
     def get_queryset(self):
-        return (
-            self.model.objects
-            .prefetch_related('skills__tag', 'causes__tag')
-        )
+        return (self.model.objects.prefetch_related('skills__tag',
+                                                    'causes__tag'))
 
 
 class ProfileUpdateView(View):
     template_name = 'profiles/update.html'
     model = get_user_model()
-    
+
     def get_form_class(self):
         return modelform_factory(self.model, fields=['name', 'description'])
 
@@ -61,15 +57,19 @@ class AbstractTagUpsertView(LoginRequiredMixin, View):
 
     def get(self, request, pk):
         tag = get_object_or_404(self.tag, pk=pk)
-        user_tag = self.model.objects.filter(user=request.user, tag=tag).first()
+        user_tag = self.model.objects.filter(
+            user=request.user, tag=tag).first()
         form = self.get_form_class()(instance=user_tag)
-        return render(
-            request, self.template_name,
-            {'tag': tag, 'user_tag': user_tag, 'form': form})
-    
+        return render(request, self.template_name, {
+            'tag': tag,
+            'user_tag': user_tag,
+            'form': form
+        })
+
     def post(self, request, pk):
         tag = get_object_or_404(self.tag, pk=pk)
-        user_tag = self.model.objects.filter(user=request.user, tag=tag).first()
+        user_tag = self.model.objects.filter(
+            user=request.user, tag=tag).first()
         form = self.get_form_class()(request.POST, instance=user_tag)
         if form.is_valid():
             user_tag = form.save(commit=False)
@@ -78,8 +78,13 @@ class AbstractTagUpsertView(LoginRequiredMixin, View):
             user_tag.save()
             return redirect(request.user.get_absolute_url())
         return render(
-            request, self.template_name,
-            {'tag': tag, 'user_tag': user_tag, 'form': form}, status=400)
+            request,
+            self.template_name, {
+                'tag': tag,
+                'user_tag': user_tag,
+                'form': form
+            },
+            status=400)
 
 
 class CauseUpsertView(AbstractTagUpsertView):
@@ -97,10 +102,11 @@ class AbstractTagDeleteView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return self.request.user.get_absolute_url()
-            
+
     def get_object(self):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        return get_object_or_404(self.model, tag__pk=pk, user=self.request.user)
+        return get_object_or_404(
+            self.model, tag__pk=pk, user=self.request.user)
 
 
 class CauseDeleteView(AbstractTagDeleteView):

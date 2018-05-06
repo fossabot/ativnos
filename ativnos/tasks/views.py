@@ -1,6 +1,6 @@
-from django.shortcuts import redirect
-from django.views.generic import ListView, DetailView, DeleteView
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.shortcuts import redirect
+from django.views.generic import DeleteView, DetailView, ListView
 
 from ativnos.helpers.views import CreateView
 
@@ -19,8 +19,8 @@ class TaskCreateView(LoginRequiredMixin, CreateView):
     model = Task
     template_name = 'tasks/create.html'
     fields = ['cause', 'skill', 'name', 'description']
-    
-    def form_valid(self, form):        
+
+    def form_valid(self, form):
         self.object = form.save(commit=False)
         self.object.user = self.request.user
         self.object.save()

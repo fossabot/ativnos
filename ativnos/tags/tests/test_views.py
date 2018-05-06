@@ -1,9 +1,8 @@
 from django.test import TestCase
 
 from ativnos.helpers.testing import ListViewMixin
-from ativnos.tags.tests.factories import SkillFactory, CauseFactory
-
 from ativnos.tags import views
+from ativnos.tags.tests.factories import CauseFactory, SkillFactory
 
 
 class CauseListViewTestCase(ListViewMixin, TestCase):

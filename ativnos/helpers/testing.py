@@ -19,10 +19,11 @@ class DetailViewMixin():
         object_factory (DjangoModelFactory): factory to generate object displayed in view
         view_class (View): django View class. Usually a DetailView
     """
+
     def setUp(self):
         self.object = self.object_factory()
         self.view = self.view_class.as_view()
-        self.resource = reverse(self.url_name, kwargs={'pk': self.object.pk})        
+        self.resource = reverse(self.url_name, kwargs={'pk': self.object.pk})
 
     def test_get(self):
         res = self.view(get(self.resource), pk=self.object.pk)
@@ -38,6 +39,7 @@ class ListViewMixin():
         object_factory (DjangoModelFactory): factory to generate object displayed in view
         view_class (View): django View class. Usually a ListView
     """
+
     def setUp(self):
         self.object = self.object_factory()
         self.view = self.view_class.as_view()

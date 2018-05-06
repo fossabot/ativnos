@@ -9,4 +9,13 @@ copy_env:
 update:
 	ssh $(SERVER) '/bin/sh /var/app/deploy/update.sh'
 
+yapf:
+	yapf -r -i --style=pep8 ./ativnos
+
+isort:
+	isort -rc ./ativnos
+
+format_python: yapf isort
+
+
 

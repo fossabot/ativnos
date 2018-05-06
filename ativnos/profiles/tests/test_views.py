@@ -1,5 +1,8 @@
-from django.test import RequestFactory, TestCase
+from django.test import TestCase
 from django.urls import reverse
+from django.contrib.auth.models import AnonymousUser
+
+from parameterized import parameterized
 
 from ativnos.helpers.testing import DetailViewMixin, get, post
 from ativnos.profiles import views
@@ -9,23 +12,74 @@ from ativnos.tags.tests.factories import CauseFactory, SkillFactory
 from ativnos.users.tests.factories import UserFactory
 
 
-class ProfileDetailViewTestCase(DetailViewMixin, TestCase):
+class ProfileDetailViewTestCase(TestCase):
     url_name = 'profile'
     view_class = views.ProfileDetailView
-    object_factory = UserFactory
+
+    def setUp(self):                
+        self.view = self.view_class.as_view()        
+
+    @parameterized.expand([        
+        (
+            "other user public profile",
+            UserFactory,
+            lambda : UserFactory(is_public=True),
+            True,
+        ),
+        (
+            "non user public profile",
+            AnonymousUser,
+            lambda : UserFactory(is_public=True),
+            True,
+        ),
+        (
+            "other user non-public profile",
+            UserFactory,
+            lambda : UserFactory(is_public=False),
+            True,
+        ),
+        (
+            "non user non-public profile",
+            AnonymousUser,
+            lambda : UserFactory(is_public=False),
+            False,
+        )        
+    ])    
+    def test_get(self, name, get_user, get_profile_user, authorized):
+        profile = get_profile_user()
+        resource = reverse('profile', kwargs={'pk': profile.pk})
+        req = get(resource, user=get_user())
+        res = self.view(req, pk=profile.pk)
+        if authorized:
+            self.assertEqual(res.status_code, 200)
+        else:
+            self.assertEqual(res.status_code, 302)
 
 
 class ProfileUpdateViewTestCase(TestCase):
-    def setUp(self):
-        self.user = UserFactory()
+    def setUp(self):                
         self.view = views.ProfileUpdateView.as_view()
         self.resource = reverse('profiles:update')
 
-    def test_get(self):
-        req = get(self.resource)
-        req.user = self.user
+    @parameterized.expand([        
+        (
+            "user",
+            UserFactory,            
+            True,
+        ),
+        (
+            "non user public profile",
+            AnonymousUser,            
+            False,
+        ),        
+    ])
+    def test_get(self, name, get_user, authorized):        
+        req = get(self.resource, user=get_user())
         res = self.view(req)
-        self.assertEqual(res.status_code, 200)
+        if authorized:
+            self.assertEqual(res.status_code, 200)
+        else:
+            self.assertEqual(res.status_code, 302)
 
 
 class TagUpsertMixin():

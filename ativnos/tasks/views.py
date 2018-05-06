@@ -7,9 +7,13 @@ from ativnos.helpers.views import CreateView
 from .models import Task
 
 
-class TaskDetailView(DetailView):
+class TaskDetailView(UserPassesTestMixin, DetailView):
     model = Task
     template_name = 'tasks/detail.html'
+
+    def test_func(self):
+        return self.request.user.is_authenticated or self.get_object(
+        ).user.is_public
 
     def get_queryset(self):
         return self.model.objects.select_related('user', 'cause', 'skill')
@@ -44,4 +48,7 @@ class TaskListView(ListView):
     template_name = 'tasks/list.html'
 
     def get_queryset(self):
-        return self.model.objects.select_related('user', 'cause', 'skill')
+        qs = self.model.objects.select_related('user', 'cause', 'skill')
+        if self.request.user.is_authenticated:
+            return qs
+        return qs.filter(user__is_public=True)

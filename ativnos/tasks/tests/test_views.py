@@ -12,10 +12,49 @@ from ativnos.tasks.tests.factories import TaskFactory
 from ativnos.users.tests.factories import UserFactory
 
 
-class TaskDetailViewTestCase(DetailViewMixin, TestCase):
-    object_factory = TaskFactory
-    view_class = views.TaskDetailView
+class TaskDetailViewTestCase(TestCase):
     url_name = 'tasks:detail'
+    view_class = views.TaskDetailView
+
+    def setUp(self):                
+        self.view = self.view_class.as_view()        
+
+    @parameterized.expand([        
+        (
+            "other user views public user's task",
+            UserFactory,
+            lambda : UserFactory(is_public=True),
+            True,
+        ),
+        (
+            "non user views public user's task",
+            AnonymousUser,
+            lambda : UserFactory(is_public=True),
+            True,
+        ),
+        (
+            "other user views non-public user's task",
+            UserFactory,
+            lambda : UserFactory(is_public=False),
+            True,
+        ),
+        (
+            "non user views non-public user's task",
+            AnonymousUser,
+            lambda : UserFactory(is_public=False),
+            False,
+        )        
+    ])    
+    def test_get(self, name, get_user, get_profile_user, authorized):
+        profile = get_profile_user()
+        task = TaskFactory(user=profile)
+        resource = reverse(self.url_name, kwargs={'pk': task.pk})
+        req = get(resource, user=get_user())
+        res = self.view(req, pk=task.pk)
+        if authorized:
+            self.assertEqual(res.status_code, 200)
+        else:
+            self.assertEqual(res.status_code, 302)
 
 
 class TaskListViewTestCase(ListViewMixin, TestCase):

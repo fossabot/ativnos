@@ -5,6 +5,17 @@
 
             <h2>{{ object.name|default:"Anonymous" }}</h2>
             <p>{{ object.description }}</p>
+            <p class="text-muted">            
+            {% trans "This profile is " %}
+            {% if object.is_public %}
+            {% trans "Public. That means anyone can view this user's profile and posts (i.e. tasks)." %}
+            {% else %}
+            {% trans "Private. That means only logged in users can view this user's profile and posts (i.e. tasks). " %}
+            {% endif %}
+            {% if request.user == object %}
+            {% trans "Edit your profile to change this setting" %}
+            {% endif %}
+            </p>
             {% if request.user == object %}
             <a href="{% url 'profiles:update' %}" class="btn btn-secondary btn-sm">edit</a>
             {% endif %}

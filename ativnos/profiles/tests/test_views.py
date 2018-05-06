@@ -1,7 +1,6 @@
+from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse
-from django.contrib.auth.models import AnonymousUser
-
 from parameterized import parameterized
 
 from ativnos.helpers.testing import DetailViewMixin, get, post
@@ -16,35 +15,30 @@ class ProfileDetailViewTestCase(TestCase):
     url_name = 'profile'
     view_class = views.ProfileDetailView
 
-    def setUp(self):                
-        self.view = self.view_class.as_view()        
+    def setUp(self):
+        self.view = self.view_class.as_view()
 
-    @parameterized.expand([        
-        (
-            "other user public profile",
-            UserFactory,
-            lambda : UserFactory(is_public=True),
-            True,
-        ),
-        (
-            "non user public profile",
-            AnonymousUser,
-            lambda : UserFactory(is_public=True),
-            True,
-        ),
-        (
-            "other user non-public profile",
-            UserFactory,
-            lambda : UserFactory(is_public=False),
-            True,
-        ),
-        (
-            "non user non-public profile",
-            AnonymousUser,
-            lambda : UserFactory(is_public=False),
-            False,
-        )        
-    ])    
+    @parameterized.expand([(
+        "other user public profile",
+        UserFactory,
+        lambda: UserFactory(is_public=True),
+        True,
+    ), (
+        "non user public profile",
+        AnonymousUser,
+        lambda: UserFactory(is_public=True),
+        True,
+    ), (
+        "other user non-public profile",
+        UserFactory,
+        lambda: UserFactory(is_public=False),
+        True,
+    ), (
+        "non user non-public profile",
+        AnonymousUser,
+        lambda: UserFactory(is_public=False),
+        False,
+    )])
     def test_get(self, name, get_user, get_profile_user, authorized):
         profile = get_profile_user()
         resource = reverse('profile', kwargs={'pk': profile.pk})
@@ -57,23 +51,23 @@ class ProfileDetailViewTestCase(TestCase):
 
 
 class ProfileUpdateViewTestCase(TestCase):
-    def setUp(self):                
+    def setUp(self):
         self.view = views.ProfileUpdateView.as_view()
         self.resource = reverse('profiles:update')
 
-    @parameterized.expand([        
+    @parameterized.expand([
         (
             "user",
-            UserFactory,            
+            UserFactory,
             True,
         ),
         (
             "non user public profile",
-            AnonymousUser,            
+            AnonymousUser,
             False,
-        ),        
+        ),
     ])
-    def test_get(self, name, get_user, authorized):        
+    def test_get(self, name, get_user, authorized):
         req = get(self.resource, user=get_user())
         res = self.view(req)
         if authorized:

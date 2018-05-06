@@ -16,35 +16,30 @@ class TaskDetailViewTestCase(TestCase):
     url_name = 'tasks:detail'
     view_class = views.TaskDetailView
 
-    def setUp(self):                
-        self.view = self.view_class.as_view()        
+    def setUp(self):
+        self.view = self.view_class.as_view()
 
-    @parameterized.expand([        
-        (
-            "other user views public user's task",
-            UserFactory,
-            lambda : UserFactory(is_public=True),
-            True,
-        ),
-        (
-            "non user views public user's task",
-            AnonymousUser,
-            lambda : UserFactory(is_public=True),
-            True,
-        ),
-        (
-            "other user views non-public user's task",
-            UserFactory,
-            lambda : UserFactory(is_public=False),
-            True,
-        ),
-        (
-            "non user views non-public user's task",
-            AnonymousUser,
-            lambda : UserFactory(is_public=False),
-            False,
-        )        
-    ])    
+    @parameterized.expand([(
+        "other user views public user's task",
+        UserFactory,
+        lambda: UserFactory(is_public=True),
+        True,
+    ), (
+        "non user views public user's task",
+        AnonymousUser,
+        lambda: UserFactory(is_public=True),
+        True,
+    ), (
+        "other user views non-public user's task",
+        UserFactory,
+        lambda: UserFactory(is_public=False),
+        True,
+    ), (
+        "non user views non-public user's task",
+        AnonymousUser,
+        lambda: UserFactory(is_public=False),
+        False,
+    )])
     def test_get(self, name, get_user, get_profile_user, authorized):
         profile = get_profile_user()
         task = TaskFactory(user=profile)

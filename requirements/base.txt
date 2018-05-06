@@ -20,3 +20,6 @@ coreapi==2.3.3  # https://github.com/core-api/python-client
 
 # For closed beta
 django-invitations==1.9.2  # https://github.com/bee-keeper/django-invitations
+
+# To prevent email spam
+django-recaptcha==1.4.0

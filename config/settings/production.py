@@ -203,5 +203,12 @@ SENTRY_CELERY_LOGLEVEL = env.int('DJANGO_SENTRY_LOG_LEVEL', logging.INFO)
 RAVEN_CONFIG = {
     'dsn': SENTRY_DSN
 }
+
+# recaptcha
+# ------------------------------------------------------------------------------
+
+RECAPTCHA_PUBLIC_KEY = env('RECAPTCHA_PUBLIC_KEY')
+RECAPTCHA_PRIVATE_KEY = env('RECAPTCHA_PRIVATE_KEY')
+
 # Your stuff...
 # ------------------------------------------------------------------------------

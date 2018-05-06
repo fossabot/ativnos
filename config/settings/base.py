@@ -74,6 +74,7 @@ THIRD_PARTY_APPS = [
     'allauth.socialaccount',
     'rest_framework',
     'invitations',
+    'captcha',
 ]
 LOCAL_APPS = [
     'ativnos.users.apps.UsersConfig',
@@ -259,6 +260,14 @@ def _get_user_display(user):
 
 
 ACCOUNT_USER_DISPLAY = _get_user_display
+
+ACCOUNT_FORMS = {
+    'reset_password': 'ativnos.accounts.forms.CaptchaResetPasswordForm'
+}
+
+# recaptcha
+# ------------------------------------------------------------------------------
+NOCAPTCHA = True
 
 
 # Your stuff...

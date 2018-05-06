@@ -73,6 +73,7 @@ THIRD_PARTY_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'rest_framework',
+    'invitations',
 ]
 LOCAL_APPS = [
     'ativnos.users.apps.UsersConfig',
@@ -239,7 +240,13 @@ ACCOUNT_EMAIL_REQUIRED = True
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
-ACCOUNT_ADAPTER = 'ativnos.users.adapters.AccountAdapter'
+# ACCOUNT_ADAPTER = 'ativnos.users.adapters.AccountAdapter'
+# For closed beta, use invite adapter
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+INVITATIONS_INVITATION_ONLY = True
+INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
+
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'ativnos.users.adapters.SocialAccountAdapter'
 

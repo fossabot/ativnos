@@ -253,7 +253,7 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 # ------------------------------------------------------------------------------
 INVITATIONS_INVITATION_ONLY = True
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
-INVITATIONS_INVITE_FORM = 'ativnos.users.forms.CaptchaInviteForm'
+INVITATIONS_INVITE_FORM = 'ativnos.invitations.forms.CaptchaInviteForm'
 
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'ativnos.users.adapters.SocialAccountAdapter'

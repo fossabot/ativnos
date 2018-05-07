@@ -11,7 +11,7 @@
 </div>    
 {% endif %}
 <h1>{% trans "Invite new user" %}</h1>
-<form method="POST" action="{% url 'users:invite' %}">
+<form method="POST" action="{% url 'invitations:send-invite' %}">
     {% csrf_token %}
     {{ form|crispy}}
     <button type="submit" class="btn btn-primary">{% trans 'Submit' %}</button>

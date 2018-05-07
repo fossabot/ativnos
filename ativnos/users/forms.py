@@ -1,6 +1,3 @@
-from captcha.fields import ReCaptchaField
-
-from invitations.forms import InviteForm
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
@@ -16,7 +13,3 @@ class ExtraSignUpForm(forms.Form):
     def signup(self, request, user):
         user.name = self.cleaned_data['name']
         user.save()
-
-
-class CaptchaInviteForm(InviteForm):
-    captcha = ReCaptchaField()

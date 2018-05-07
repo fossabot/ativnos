@@ -8,9 +8,4 @@ urlpatterns = [
         r"^~redirect/$",
         view=views.UserRedirectView.as_view(),
         name="redirect"),
-    path(
-        'invite',
-        view=views.CaptchaSendInvite.as_view(),
-        name='invite'
-    )
 ]

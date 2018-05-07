@@ -14,3 +14,4 @@ Ativnos_ a freelance site for activists.
    :maxdepth: 2
 
    userguide
+   join

@@ -1,4 +1,5 @@
 from invitations.views import SendInvite
+
 from ativnos.helpers.views import R400Mixin
 
 

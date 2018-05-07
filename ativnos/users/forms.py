@@ -4,8 +4,6 @@ from django.utils.translation import ugettext_lazy as _
 from .models import DISPLAY_NAME_LENGTH
 
 
-
-
 class ExtraSignUpForm(forms.Form):
     name = forms.CharField(
         max_length=DISPLAY_NAME_LENGTH, label=_('Display Name'))

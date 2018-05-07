@@ -1,6 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
-from django.views.generic import DeleteView, DetailView, ListView, CreateView
+from django.views.generic import CreateView, DeleteView, DetailView, ListView
 
 from ativnos.helpers.views import R400Mixin
 

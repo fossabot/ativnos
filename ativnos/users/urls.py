@@ -1,4 +1,4 @@
-from django.urls import re_path
+from django.urls import re_path, path
 
 from . import views
 
@@ -8,4 +8,9 @@ urlpatterns = [
         r"^~redirect/$",
         view=views.UserRedirectView.as_view(),
         name="redirect"),
+    path(
+        'invite',
+        view=views.CaptchaSendInvite.as_view(),
+        name='invite'
+    )
 ]

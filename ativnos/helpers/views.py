@@ -1,7 +1,4 @@
-from django.views.generic import CreateView as _CreateView
-
-
-class CreateView(_CreateView):
+class R400Mixin():
     """
     uses 400 response code for invalid form submissions
     """

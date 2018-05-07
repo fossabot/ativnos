@@ -1,8 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.shortcuts import redirect
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DeleteView, DetailView, ListView, CreateView
 
-from ativnos.helpers.views import CreateView
+from ativnos.helpers.views import R400Mixin
 
 from .models import Task
 
@@ -19,7 +19,7 @@ class TaskDetailView(UserPassesTestMixin, DetailView):
         return self.model.objects.select_related('user', 'cause', 'skill')
 
 
-class TaskCreateView(LoginRequiredMixin, CreateView):
+class TaskCreateView(LoginRequiredMixin, R400Mixin, CreateView):
     model = Task
     template_name = 'tasks/create.html'
     fields = ['cause', 'skill', 'name', 'description']

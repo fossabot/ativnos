@@ -248,8 +248,12 @@ ACCOUNT_SIGNUP_FORM_CLASS = 'ativnos.users.forms.ExtraSignUpForm'
 # For closed beta, use invite adapter
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+# django-invitations
+# ------------------------------------------------------------------------------
 INVITATIONS_INVITATION_ONLY = True
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
+INVITATIONS_INVITE_FORM = 'ativnos.invitations.forms.CaptchaInviteForm'
 
 # https://django-allauth.readthedocs.io/en/latest/configuration.html
 SOCIALACCOUNT_ADAPTER = 'ativnos.users.adapters.SocialAccountAdapter'

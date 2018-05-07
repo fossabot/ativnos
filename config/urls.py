@@ -26,7 +26,7 @@ urlpatterns = [
     ),
     path('accounts/', include("allauth.urls")),
     # Your stuff: custom urls includes go here
-    path('invitations/', include('invitations.urls', namespace='invitations')),
+    path('invitations/', include('ativnos.invitations.urls', namespace='invitations')),
     path(
         'profiles/',
         include("ativnos.profiles.urls", namespace="profiles"),

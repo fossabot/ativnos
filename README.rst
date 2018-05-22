@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fevrom%2Fativnos.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fevrom%2Fativnos?ref=badge_shield)
+
 ativnos
 =======
 
@@ -104,3 +106,7 @@ See detailed `cookiecutter-django Docker documentation`_.
 
 
 
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fevrom%2Fativnos.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fevrom%2Fativnos?ref=badge_large)
